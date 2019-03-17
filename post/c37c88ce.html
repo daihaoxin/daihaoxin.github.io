@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="原文地址 CSS 是前端领域中进化最慢的一块。由于 ES2015/2016 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。 CSS 模块化的解决方案有很多，但主要有两类。一类是彻底抛弃 CSS，使用 JS 或 JSON 来写样式。Radium，jsxstyle，react-style">
+<meta name="description" content="CSS 是前端领域中进化最慢的一块。由于 `ES2015/2016` 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。">
 <meta name="keywords" content="css,转载,webpack,react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[转]CSS Modules 详解及 React 中实践">
 <meta property="og:url" content="https://daihaoxin.github.io/post/c37c88ce.html">
 <meta property="og:site_name" content="新的开始">
-<meta property="og:description" content="原文地址 CSS 是前端领域中进化最慢的一块。由于 ES2015/2016 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。 CSS 模块化的解决方案有很多，但主要有两类。一类是彻底抛弃 CSS，使用 JS 或 JSON 来写样式。Radium，jsxstyle，react-style">
+<meta property="og:description" content="CSS 是前端领域中进化最慢的一块。由于 `ES2015/2016` 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-17T06:19:04.443Z">
+<meta property="og:updated_time" content="2019-03-17T15:21:26.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[转]CSS Modules 详解及 React 中实践">
-<meta name="twitter:description" content="原文地址 CSS 是前端领域中进化最慢的一块。由于 ES2015/2016 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。 CSS 模块化的解决方案有很多，但主要有两类。一类是彻底抛弃 CSS，使用 JS 或 JSON 来写样式。Radium，jsxstyle，react-style">
+<meta name="twitter:description" content="CSS 是前端领域中进化最慢的一块。由于 `ES2015/2016` 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。">
 
 
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.3k 字
+                  3.2k 字
                 </span>
               
 
@@ -431,6 +431,10 @@
           
 
           
+              <div class="post-description">
+                  CSS 是前端领域中进化最慢的一块。由于 `ES2015/2016` 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。
+              </div>
+          
 
         </div>
       </header>
@@ -446,7 +450,6 @@
 
       
         <p><a href="https://github.com/camsong/blog/issues/5" target="_blank" rel="noopener">原文地址</a></p>
-<p>CSS 是前端领域中进化最慢的一块。由于 <code>ES2015/2016</code> 的快速普及和 Babel/Webpack 等工具的迅猛发展，CSS 被远远甩在了后面，逐渐成为大型项目工程化的痛点。也变成了前端走向彻底模块化前必须解决的难题。</p>
 <p>CSS 模块化的解决方案有很多，但主要有两类。一类是彻底抛弃 CSS，使用 JS 或 JSON 来写样式。<code>Radium</code>，<code>jsxstyle</code>，<code>react-style</code> 属于这一类。优点是能给 CSS 提供 JS 同样强大的模块化能力；缺点是不能利用成熟的 CSS 预处理器（或后处理器） <code>Sass/Less/PostCSS</code>，<code>:hover</code> 和 <code>:active</code> 伪类处理起来复杂。另一类是依旧使用 CSS，但使用 JS 来管理样式依赖，代表是 <code>CSS Modules</code>。<code>CSS Modules</code> 能最大化地结合现有 CSS 生态和 JS 模块化能力，API 简洁到几乎零学习成本。发布时依旧编译出单独的 JS 和 CSS。它并不依赖于 React，只要你使用 Webpack，可以在 Vue/Angular/jQuery 中使用。是我认为目前最好的 CSS 模块化解决方案。近期在项目中大量使用，下面具体分享下实践中的细节和想法。</p>
 <h2 id="CSS-模块化遇到了哪些问题？"><a href="#CSS-模块化遇到了哪些问题？" class="headerlink" title="CSS 模块化遇到了哪些问题？"></a>CSS 模块化遇到了哪些问题？</h2><p>CSS 模块化重要的是要解决好两个问题：CSS 样式的导入和导出。灵活按需导入以便复用代码；导出时要能够隐藏内部作用域，以免造成全局污染。Sass/Less/PostCSS 等前仆后继试图解决 CSS 编程能力弱的问题，结果它们做的也确实优秀，但这并没有解决模块化最重要的问题。Facebook 工程师 Vjeux 首先抛出了 React 开发中遇到的一系列 CSS 相关问题。加上我个人的看法，总结如下：</p>
 <ol>
@@ -732,7 +735,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
