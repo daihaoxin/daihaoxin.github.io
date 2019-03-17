@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="aEyXK_NfpZUVk8AQaiydYy5WijfkQSFpZ1LLHIK-kYI">
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="动手模拟,react,redux,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新的开始" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="redux在现在前端开发中是必须要了解学习的，通过模拟思路是一种极好的学习方式">
+<meta name="keywords" content="动手模拟,react,redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux手动实现之四性能优化">
+<meta property="og:url" content="https://daihaoxin.github.io/post/3d4efad1.html">
+<meta property="og:site_name" content="新的开始">
+<meta property="og:description" content="redux在现在前端开发中是必须要了解学习的，通过模拟思路是一种极好的学习方式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://daihaoxin.github.io/images/make-redux-401.png">
+<meta property="og:image" content="https://daihaoxin.github.io/images/make-redux-402.png">
+<meta property="og:image" content="https://daihaoxin.github.io/images/make-redux-403.png">
+<meta property="og:updated_time" content="2019-03-17T06:19:04.447Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redux手动实现之四性能优化">
+<meta name="twitter:description" content="redux在现在前端开发中是必须要了解学习的，通过模拟思路是一种极好的学习方式">
+<meta name="twitter:image" content="https://daihaoxin.github.io/images/make-redux-401.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://daihaoxin.github.io/post/3d4efad1.html">
+
+
+
+
+
+  <title>redux手动实现之四性能优化 | 新的开始</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新的开始</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">XINGMU'S BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daihaoxin.github.io/post/3d4efad1.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xingmu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新的开始">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redux手动实现之四性能优化</h1>
+        
+    
+    
+    
+    
+    <div class="post-tags">
+      
+      <a href="/tags/动手模拟/" rel="tag"><i class="fa fa-tag"> 动手模拟</i></a>
+      
+      <a href="/tags/react/" rel="tag"><i class="fa fa-tag"> react</i></a>
+      
+      <a href="/tags/redux/" rel="tag"><i class="fa fa-tag"> redux</i></a>
+      
+    </div>
+    
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T15:15:00+08:00">
+                2019-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </span>
+          
+
+          
+              <div class="post-description">
+                  redux在现在前端开发中是必须要了解学习的，通过模拟思路是一种极好的学习方式
+              </div>
+          
+
+        </div>
+      </header>
+    
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上一节的代码中，其实存在一个很严重的性能问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderTitle</span>(<span class="params">title</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render title..."</span>);</span><br><span class="line">    <span class="keyword">const</span> titleDom = <span class="built_in">document</span>.querySelector(<span class="string">"#title"</span>);</span><br><span class="line">    titleDom.innerHTML = title.text;</span><br><span class="line">    titleDom.style.color = title.color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderContent</span>(<span class="params">content</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render content..."</span>);</span><br><span class="line">    <span class="keyword">const</span> contentDom = <span class="built_in">document</span>.querySelector(<span class="string">"#content"</span>);</span><br><span class="line">    contentDom.innerHTML = content.text;</span><br><span class="line">    contentDom.style.color = content.color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderApp</span>(<span class="params">appState</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render app..."</span>);</span><br><span class="line">    renderTitle(appState.title);</span><br><span class="line">    renderContent(appState.content);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他代码保持不变，依旧执行一次初始化渲染，和两次更新，然后打开控制台看下log<br><img src="/images/make-redux-401.png" alt=""></p>
+<p>前三个是第一次渲染打印出来的。中间三个是第一次 store.dispatch 的结果，最后三个是第二次 store.dispatch 的结果。问题就是后两次的更新都没有改动 content 对象，只是修改了 title 对象。 renderContent 是不需要执行的，这里的操作需要优化。</p>
+<p>可以通过在每个渲染函数执行渲染操作之前先做个判断，判断传入的新数据和旧的数据是不是相同，相同的话就不渲染了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderTitle</span>(<span class="params">newTitle, oldTile = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (newTitle === oldTile) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render title..."</span>);</span><br><span class="line">    <span class="keyword">const</span> titleDom = <span class="built_in">document</span>.querySelector(<span class="string">"#title"</span>);</span><br><span class="line">    titleDom.innerHTML = newTitle.text;</span><br><span class="line">    titleDom.style.color = newTitle.color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderContent</span>(<span class="params">newContent, oldContent = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (newContent === oldContent) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render content..."</span>);</span><br><span class="line">    <span class="keyword">const</span> contentDom = <span class="built_in">document</span>.querySelector(<span class="string">"#content"</span>);</span><br><span class="line">    contentDom.innerHTML = newContent.text;</span><br><span class="line">    contentDom.style.color = newContent.color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">renderApp</span>(<span class="params">newAppState, oldAppState = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (newAppState === oldAppState) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"render app..."</span>);</span><br><span class="line">    renderTitle(newAppState.title, oldAppState.title);</span><br><span class="line">    renderContent(newAppState.content, oldAppState.content);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们用一个 oldState 变量保存旧的应用状态，在需要重新渲染的时候把新旧数据传进入去：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成 store</span></span><br><span class="line"><span class="keyword">let</span> store = createStore(appState, stateChanger);</span><br><span class="line"><span class="comment">// 缓存旧的state</span></span><br><span class="line"><span class="keyword">let</span> oldState = store.getState();</span><br><span class="line"><span class="comment">// 监听数据变化</span></span><br><span class="line">store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 获取新的 state</span></span><br><span class="line">    <span class="keyword">let</span> newState = store.getState();</span><br><span class="line">    <span class="comment">// 把新旧的 state 传进去渲染</span></span><br><span class="line">    renderApp(newState, oldState);</span><br><span class="line">    <span class="comment">// 新的 newState 变成了旧的 oldState，等待下一次数据变化重新渲染</span></span><br><span class="line">    oldState = newState;</span><br><span class="line">&#125;);</span><br><span class="line">renderApp(store.getState());</span><br><span class="line"><span class="comment">// 三秒钟之后，修改标题和标题颜色，并重新渲染</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    store.dispatch(&#123; <span class="attr">type</span>: <span class="string">"UPDATE_TITLE_TEXT"</span>, <span class="attr">text</span>: <span class="string">"Redux是React是好基友"</span> &#125;);</span><br><span class="line">    store.dispatch(&#123; <span class="attr">type</span>: <span class="string">"UPDATE_TITLE_COLOR"</span>, <span class="attr">color</span>: <span class="string">"green"</span> &#125;);</span><br><span class="line">    <span class="comment">// renderApp(store.getState());</span></span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+<p>我们的代码现在变成了这样：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'title'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'content'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">const</span> appState = &#123;</span></span><br><span class="line"><span class="undefined">            title: &#123;</span></span><br><span class="line"><span class="actionscript">                text: <span class="string">"redux"</span>,</span></span><br><span class="line"><span class="actionscript">                color: <span class="string">"red"</span>,</span></span><br><span class="line"><span class="undefined">            &#125;,</span></span><br><span class="line"><span class="undefined">            content: &#123;</span></span><br><span class="line"><span class="actionscript">                text: <span class="string">"redux文档内容"</span>,</span></span><br><span class="line"><span class="actionscript">                color: <span class="string">"blue"</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        &#125;;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">stateChanger</span><span class="params">(state, action)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">switch</span> (action.type) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_TEXT"</span>: &#123;</span></span><br><span class="line"><span class="undefined">                    state.title.text = action.text;</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">break</span>;</span></span><br><span class="line"><span class="undefined">                &#125;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_COLOR"</span>: &#123;</span></span><br><span class="line"><span class="undefined">                    state.title.color = action.color;</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">break</span>;</span></span><br><span class="line"><span class="undefined">                &#125;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">default</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">break</span>;</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 添加 createStore</span></span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">createStore</span><span class="params">(state, stateChanger)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">let</span> events = [];</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                subscribe: <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">                    events.push(event);</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                dispatch: <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">                    stateChanger(state, action);</span></span><br><span class="line"><span class="javascript">                    events.forEach(<span class="function">(<span class="params">event</span>) =&gt;</span> event());</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                getState: <span class="function"><span class="params">()</span> =&gt;</span> state</span></span><br><span class="line"><span class="undefined">            &#125;;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderTitle</span><span class="params">(newTitle, oldTile = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newTitle === oldTile) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render title..."</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> titleDom = <span class="built_in">document</span>.querySelector(<span class="string">"#title"</span>);</span></span><br><span class="line"><span class="undefined">            titleDom.innerHTML = newTitle.text;</span></span><br><span class="line"><span class="undefined">            titleDom.style.color = newTitle.color;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderContent</span><span class="params">(newContent, oldContent = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newContent === oldContent) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render content..."</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> contentDom = <span class="built_in">document</span>.querySelector(<span class="string">"#content"</span>);</span></span><br><span class="line"><span class="undefined">            contentDom.innerHTML = newContent.text;</span></span><br><span class="line"><span class="undefined">            contentDom.style.color = newContent.color;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderApp</span><span class="params">(newAppState, oldAppState = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newAppState === oldAppState) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render app..."</span>);</span></span><br><span class="line"><span class="undefined">            renderTitle(newAppState.title, oldAppState.title);</span></span><br><span class="line"><span class="undefined">            renderContent(newAppState.content, oldAppState.content);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 生成 store</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> store = createStore(appState, stateChanger);</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 缓存旧的state</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> oldState = store.getState();</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 监听数据变化</span></span></span><br><span class="line"><span class="javascript">        store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 获取新的 state</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">let</span> newState = store.getState();</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 把新旧的 state 传进去渲染</span></span></span><br><span class="line"><span class="undefined">            renderApp(newState, oldState);</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 新的 newState 变成了旧的 oldState，等待下一次数据变化重新渲染</span></span></span><br><span class="line"><span class="undefined">            oldState = newState;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">        renderApp(store.getState());</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 三秒钟之后，修改标题和标题颜色，并重新渲染</span></span></span><br><span class="line"><span class="actionscript">        setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            store.dispatch(&#123; type: <span class="string">"UPDATE_TITLE_TEXT"</span>, text: <span class="string">"Redux是React是好基友"</span> &#125;);</span></span><br><span class="line"><span class="actionscript">            store.dispatch(&#123; type: <span class="string">"UPDATE_TITLE_COLOR"</span>, color: <span class="string">"green"</span> &#125;);</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// renderApp(store.getState());</span></span></span><br><span class="line"><span class="undefined">        &#125;, 3000);</span></span><br><span class="line"><span class="undefined">    </span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>打开页面，会发现只执行了第一次渲染，而后面的两次更新根本就不执行了，why???????</p>
+<p>我们知道在 JavaScript 函数中，所有的参数都是值传递，参数为基本类型时传递的直接就是值，参数为对象时，参数的值就是对象所在的内存地址空间，看下我们修改 state 的地方：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stateChanger</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_TEXT"</span>: &#123;</span><br><span class="line">            state.title.text = action.text;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_COLOR"</span>: &#123;</span><br><span class="line">            state.title.color = action.color;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的代码可以看到，我们只是修改了 <code>state.title</code> 中的 text 和 color 属性，而 title 对象的内存地址依然原来的，state 的内存地址也依然是原来，所以 newState 和 oldState 都是指向同一个内存地址，所以 <code>newAppState === oldAppState</code> 为 <code>true</code>，所以也就不会触发新的渲染。</p>
+<p><a href="https://www.jianshu.com/p/996671d4dcc4" target="_blank" rel="noopener">内存空间详细图解</a></p>
+<p>怎么办？？？？？？</p>
+<p>是不是可以通过浅复制生成一个新的对象，然后将修改的部分覆盖到这个新的对象上，这样既可以保证没有被修改的对象内存地址保持不变，而被修改的对象又可以获得新的地址，继而触发渲染。<br><img src="/images/make-redux-402.png" alt=""></p>
+<p>每次修改某些数据的时候，不去改变原来的数据，而是把需要修改数据对象都 copy 一个出来，然后再去修改新生成的数据。如上图所示，content 对象就可以在不同的阶段进行共享。</p>
+<p>根据这个思路，来修改 <code>stateChanger</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stateChanger</span>(<span class="params">state, action</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_TEXT"</span>:</span><br><span class="line">            <span class="keyword">return</span> &#123; <span class="comment">// 构建新的对象并且返回</span></span><br><span class="line">                ...state,</span><br><span class="line">                title: &#123;</span><br><span class="line">                    ...state.title,</span><br><span class="line">                    text: action.text</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_COLOR"</span>:</span><br><span class="line">            <span class="keyword">return</span> &#123; <span class="comment">// 构建新的对象并且返回</span></span><br><span class="line">                ...state,</span><br><span class="line">                title: &#123;</span><br><span class="line">                    ...state.title,</span><br><span class="line">                    color: action.color</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> state; <span class="comment">// 没有修改，返回原来的对象</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每次需要修改的时候都会产生新的对象，并且返回。而如果没有修改（在 default 语句中）则返回原来的 state 对象。</p>
+<p>因为 stateChanger 不会修改原来对象了，而是返回对象，所以我们需要修改一下 createStore。让它用每次 stateChanger(state, action) 的调用结果覆盖原来的 state：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createStore</span>(<span class="params">state, stateChanger</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> events = [];</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        subscribe: <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">            events.push(event);</span><br><span class="line">        &#125;,</span><br><span class="line">        dispatch: <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 每次修改之后， 获取新的state</span></span><br><span class="line">            state = stateChanger(state, action);</span><br><span class="line">            events.forEach(<span class="function">(<span class="params">event</span>) =&gt;</span> event());</span><br><span class="line">        &#125;,</span><br><span class="line">        getState: <span class="function"><span class="params">()</span> =&gt;</span> state</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在的完整代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'title'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'content'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">const</span> appState = &#123;</span></span><br><span class="line"><span class="undefined">            title: &#123;</span></span><br><span class="line"><span class="actionscript">                text: <span class="string">"redux"</span>,</span></span><br><span class="line"><span class="actionscript">                color: <span class="string">"red"</span>,</span></span><br><span class="line"><span class="undefined">            &#125;,</span></span><br><span class="line"><span class="undefined">            content: &#123;</span></span><br><span class="line"><span class="actionscript">                text: <span class="string">"redux文档内容"</span>,</span></span><br><span class="line"><span class="actionscript">                color: <span class="string">"blue"</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        &#125;;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">stateChanger</span><span class="params">(state, action)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">switch</span> (action.type) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_TEXT"</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> &#123; <span class="comment">// 构建新的对象并且返回</span></span></span><br><span class="line"><span class="undefined">                        ...state,</span></span><br><span class="line"><span class="undefined">                        title: &#123;</span></span><br><span class="line"><span class="undefined">                            ...state.title,</span></span><br><span class="line"><span class="undefined">                            text: action.text</span></span><br><span class="line"><span class="undefined">                        &#125;</span></span><br><span class="line"><span class="undefined">                    &#125;;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">case</span> <span class="string">"UPDATE_TITLE_COLOR"</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> &#123; <span class="comment">// 构建新的对象并且返回</span></span></span><br><span class="line"><span class="undefined">                        ...state,</span></span><br><span class="line"><span class="undefined">                        title: &#123;</span></span><br><span class="line"><span class="undefined">                            ...state.title,</span></span><br><span class="line"><span class="undefined">                            color: action.color</span></span><br><span class="line"><span class="undefined">                        &#125;</span></span><br><span class="line"><span class="undefined">                    &#125;;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">default</span>:</span></span><br><span class="line"><span class="actionscript">                    <span class="keyword">return</span> state; <span class="comment">// 没有修改，返回原来的对象</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 添加 createStore</span></span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">createStore</span><span class="params">(state, stateChanger)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">let</span> events = [];</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                subscribe: <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="undefined">                    events.push(event);</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                dispatch: <span class="function">(<span class="params">action</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="actionscript">                    <span class="comment">// 每次修改之后， 获取新的state</span></span></span><br><span class="line"><span class="undefined">                    state = stateChanger(state, action);</span></span><br><span class="line"><span class="javascript">                    events.forEach(<span class="function">(<span class="params">event</span>) =&gt;</span> event());</span></span><br><span class="line"><span class="undefined">                &#125;,</span></span><br><span class="line"><span class="javascript">                getState: <span class="function"><span class="params">()</span> =&gt;</span> state</span></span><br><span class="line"><span class="undefined">            &#125;;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderTitle</span><span class="params">(newTitle, oldTile = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newTitle === oldTile) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render title..."</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> titleDom = <span class="built_in">document</span>.querySelector(<span class="string">"#title"</span>);</span></span><br><span class="line"><span class="undefined">            titleDom.innerHTML = newTitle.text;</span></span><br><span class="line"><span class="undefined">            titleDom.style.color = newTitle.color;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderContent</span><span class="params">(newContent, oldContent = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newContent === oldContent) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render content..."</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">const</span> contentDom = <span class="built_in">document</span>.querySelector(<span class="string">"#content"</span>);</span></span><br><span class="line"><span class="undefined">            contentDom.innerHTML = newContent.text;</span></span><br><span class="line"><span class="undefined">            contentDom.style.color = newContent.color;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">renderApp</span><span class="params">(newAppState, oldAppState = &#123;&#125;)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (newAppState === oldAppState) &#123;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">// 数据没有变化就不渲染了</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">"render app..."</span>);</span></span><br><span class="line"><span class="undefined">            renderTitle(newAppState.title, oldAppState.title);</span></span><br><span class="line"><span class="undefined">            renderContent(newAppState.content, oldAppState.content);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">        </span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 生成 store</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> store = createStore(appState, stateChanger);</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 缓存旧的state</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> oldState = store.getState();</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 监听数据变化</span></span></span><br><span class="line"><span class="javascript">        store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 获取新的 state</span></span></span><br><span class="line"><span class="javascript">            <span class="keyword">let</span> newState = store.getState();</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 把新旧的 state 传进去渲染</span></span></span><br><span class="line"><span class="undefined">            renderApp(newState, oldState);</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 新的 newState 变成了旧的 oldState，等待下一次数据变化重新渲染</span></span></span><br><span class="line"><span class="undefined">            oldState = newState;</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">        renderApp(store.getState());</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 三秒钟之后，修改标题和标题颜色，并重新渲染</span></span></span><br><span class="line"><span class="actionscript">        setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            store.dispatch(&#123; type: <span class="string">"UPDATE_TITLE_TEXT"</span>, text: <span class="string">"Redux是React是好基友"</span> &#125;);</span></span><br><span class="line"><span class="actionscript">            store.dispatch(&#123; type: <span class="string">"UPDATE_TITLE_COLOR"</span>, color: <span class="string">"green"</span> &#125;);</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// renderApp(store.getState());</span></span></span><br><span class="line"><span class="undefined">        &#125;, 3000);</span></span><br><span class="line"><span class="undefined">    </span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>刷新页面，然后打开控制台看下log<br><img src="/images/make-redux-403.png" alt=""></p>
+<p>另外，并不需要担心每次修改都新建共享结构对象会有性能、内存问题，因为构建对象的成本非常低，而且我们最多保存两个对象引用（oldState 和 newState），其余旧的对象都会被垃圾回收掉。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://huziketang.mangojuice.top/books/react/" target="_blank" rel="noopener">http://huziketang.mangojuice.top/books/react/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    如果对本文 <a href="https://daihaoxin.github.io/post/3d4efad1.html" title="redux手动实现之四性能优化">redux手动实现之四性能优化</a> 的内容有疑问，请在下面的评论系统中留言，谢谢。
+  </li>
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    xingmu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daihaoxin.github.io/post/3d4efad1.html" title="redux手动实现之四性能优化">https://daihaoxin.github.io/post/3d4efad1.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+    
+    
+    <footer class="post-footer">
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/9995c091.html" rel="next" title="redux手动实现之三数据监控">
+                <i class="fa fa-chevron-left"></i> redux手动实现之三数据监控
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/d60b308f.html" rel="prev" title="redux手动实现之五终篇">
+                redux手动实现之五终篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="xingmu">
+            
+              <p class="site-author-name" itemprop="name">xingmu</p>
+              <p class="site-description motion-element" itemprop="description">他带着面具却演绎出了表情</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/daihaoxin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-.github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:daixingmu@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+          
+          
+          
+            
+              <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <!-- modify icon to fire by szw -->
+                <i class="fa fa-fw fa-history" aria-hidden="true"></i>
+                近期文章
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                
+                <li>
+                  <a href="/post/5f8b2e94.html" title="linux下多个git账号的配置">linux下多个git账号的配置</a>
+                </li>
+                
+                <li>
+                  <a href="/post/3d5f3b65.html" title="[转]阮一峰-IntersectionObserver API 使用教程">[转]阮一峰-IntersectionObserver API 使用教程</a>
+                </li>
+                
+                <li>
+                  <a href="/post/83f2f127.html" title="动手实现react-redux之五Provider终篇">动手实现react-redux之五Provider终篇</a>
+                </li>
+                
+                <li>
+                  <a href="/post/a24de6ae.html" title="动手实现react-redux之四mapDispatchToProps">动手实现react-redux之四mapDispatchToProps</a>
+                </li>
+                
+                <li>
+                  <a href="/post/e08ec58f.html" title="动手实现react-redux之三connect 和 mapStateToProps">动手实现react-redux之三connect 和 mapStateToProps</a>
+                </li>
+                
+              </ul>
+            </div>
+          
+          
+          
+          
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/daihaoxin" title="github" target="_blank">github</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/daihaoxin" title="github2" target="_blank">github2</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xingmu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="nofollow" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https:////busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: "990334f29184c3de4698",
+      clientSecret: "a95b50893b63f106b15b7de015bfac7eca0194fa",
+      repo: "daihaoxin.github.io",
+      owner: "daihaoxin",
+      admin: ["daihaoxin"],
+      id: location.pathname,
+      distractionFreeMode: "true"
+    });
+    gitalk.render("gitalk-container");
+  </script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="aEyXK_NfpZUVk8AQaiydYy5WijfkQSFpZ1LLHIK-kYI">
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="html/css,转载,性能,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="新的开始" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="了解回流和重排对与前端性能优化极具积极意义。">
+<meta name="keywords" content="html&#x2F;css,转载,性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转]重绘与重排(回流)">
+<meta property="og:url" content="https://daihaoxin.github.io/post/49cb51ee.html">
+<meta property="og:site_name" content="新的开始">
+<meta property="og:description" content="了解回流和重排对与前端性能优化极具积极意义。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://daihaoxin.github.io/images/重绘与重排.png">
+<meta property="og:image" content="https://daihaoxin.github.io/images/重绘与重排-02.png">
+<meta property="og:updated_time" content="2019-03-17T06:19:04.447Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转]重绘与重排(回流)">
+<meta name="twitter:description" content="了解回流和重排对与前端性能优化极具积极意义。">
+<meta name="twitter:image" content="https://daihaoxin.github.io/images/重绘与重排.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://daihaoxin.github.io/post/49cb51ee.html">
+
+
+
+
+
+  <title>[转]重绘与重排(回流) | 新的开始</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新的开始</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">XINGMU'S BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daihaoxin.github.io/post/49cb51ee.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xingmu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新的开始">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[转]重绘与重排(回流)</h1>
+        
+    
+    
+    
+    
+    <div class="post-tags">
+      
+      <a href="/tags/html-css/" rel="tag"><i class="fa fa-tag"> html/css</i></a>
+      
+      <a href="/tags/转载/" rel="tag"><i class="fa fa-tag"> 转载</i></a>
+      
+      <a href="/tags/性能/" rel="tag"><i class="fa fa-tag"> 性能</i></a>
+      
+    </div>
+    
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-06T12:00:00+08:00">
+                2019-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/html-css/" itemprop="url" rel="index">
+                    <span itemprop="name">html/css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </span>
+          
+
+          
+              <div class="post-description">
+                  了解回流和重排对与前端性能优化极具积极意义。
+              </div>
+          
+
+        </div>
+      </header>
+    
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>早在五年前，Google 就提出了 1s 完成终端页面的首屏渲染的标准。</p>
+<p><img src="/images/重绘与重排.png" alt=""></p>
+<p>常见的优化网络请求的方法有：DNS Lookup，减少重定向，避免 JS、CSS 阻塞，并行请求，代码压缩，缓存，按需加载，前端模块化…</p>
+<p>虽然相较于网络方面的优化，前端渲染的优化显得杯水车薪，而且随着浏览器和硬件性能的增长，再加上主流前端框架（react、vue、angular）的已经帮我们解决了大多数的性能问题，但是前端渲染性能优化依然值得学习，除去网络方面的消耗，留给前端渲染的时间已经不多了。本文主要学习前端渲染相关的问题。</p>
+<h2 id="浏览器是如何渲染一个页面的"><a href="#浏览器是如何渲染一个页面的" class="headerlink" title="浏览器是如何渲染一个页面的"></a>浏览器是如何渲染一个页面的</h2><ol>
+<li>浏览器把获取到的 HTML 代码解析成1个 DOM 树，HTML 中的每个 tag 都是 DOM 树中的1个节点，根节点是 document 对象。DOM 树里包含了所有 HTML 标签，包括 display:none 隐藏的标签，还有用 JS 动态添加的元素等。</li>
+<li>浏览器把所有样式解析成样式结构体，在解析的过程中会去掉浏览器不能识别的样式，比如 IE 会去掉 -moz 开头的样式。</li>
+<li>DOM Tree 和样式结构体组合后构建 render tree, render tree 类似于 DOM tree，但区别很大，render tree 能识别样式，render tree 中每个 NODE 都有自己的 style，而且 render tree 不包含隐藏的节点 (比如 display:none 的节点，还有 head 节点)，因为这些节点不会用于呈现，而且不会影响呈现的节点，所以就不会包含到 render tree 中。注意 <code>visibility:hidden</code> 隐藏的元素还是会包含到 render tree 中的，因为 <code>visibility:hidden</code> 会影响布局(layout)，会占有空间。根据css2的标准，render tree 中的每个节点都称为 box(Box dimensions)，box所有属性：width, height, margin, padding, left, top, border等。<blockquote>
+<p>注意结果就是渲染树是和DOM树是相对应的，但是不是一一对应的，因为非可视化的DOM元素不会插入到渲染树中，例如head元素；而如果元素的display属性的值是none的话，也不会出现在渲染树中。</p>
+</blockquote>
+</li>
+<li>一旦 render tree 构建完毕后，浏览器就可以根据 render tree 来绘制页面了。</li>
+</ol>
+<p><img src="/images/重绘与重排-02.png" alt=""></p>
+<p>在此过程中，前端工程师主要的敌人为：</p>
+<ol>
+<li>重新计算样式（Recalculate Style）、计算布局（Layout）=&gt; Rendering/Reflow。</li>
+<li>绘制 =&gt; Painting/Repaint。</li>
+</ol>
+<h2 id="重绘与回流"><a href="#重绘与回流" class="headerlink" title="重绘与回流"></a>重绘与回流</h2><p>在讨论回流与重绘之前，我们要知道：</p>
+<ol>
+<li>浏览器使用流式布局模型 (Flow Based Layout)。</li>
+<li>浏览器会把HTML解析成DOM，把CSS解析成CSSOM，DOM和CSSOM合并就产生了Render Tree。</li>
+<li>有了RenderTree，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。</li>
+<li>由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用table布局的原因之一。</li>
+</ol>
+<ol>
+<li>回流（Reflow）是指布局引擎为frame计算图形的过程, frame是一个矩形，拥有宽高和相对父容器的偏移。frame用来显示盒模型（content model）， 但一个content model可能会显示为多个frame，比如换行的文本每行都会显示为一个frame。<br> 当Render Tree中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程就是回流。页面第一次加载的时候，至少发生一次回流。</li>
+<li>当 render tree 中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如背景色、前景色等，这个过程叫做重绘（repaint）</li>
+</ol>
+<p>在回流的时候，浏览器会使 render tree 中受到影响的部分失效，并重新构造这部分渲染树，完成回流后，浏览器会重新绘制受影响的部分到屏幕中，该过程成为重绘。因此回流必将引起重绘，而重绘不一定会引起回流。</p>
+<p>Reflow 的成本比 Repaint 高得多的多。回流的花销跟render tree有多少节点需要重新构建有关系，假设你直接操作body，比如在body最前面插入1个元素，会导致整个render tree回流，这样代价当然会比较高，但如果是指body后面插入1个元素，则不会影响前面元素的回流。</p>
+<p><strong>一句话：回流必将引起重绘，重绘不一定会引起回流。</strong></p>
+<h3 id="重绘何时发生"><a href="#重绘何时发生" class="headerlink" title="重绘何时发生"></a>重绘何时发生</h3><p>当一个元素的外观的可见性 visibility 发生改变的时候，但是不影响布局。类似的例子包括：outline, visibility, background color。</p>
+<h3 id="回流何时发生"><a href="#回流何时发生" class="headerlink" title="回流何时发生"></a>回流何时发生</h3><ol>
+<li>页面渲染初始化。</li>
+<li>调整窗口大小。</li>
+<li>改变字体，比如修改网页默认字体。</li>
+<li>增加或者移除样式表。</li>
+<li>内容变化，比如文本改变或者图片大小改变而引起的计算值宽度和高度改变。</li>
+<li>激活 CSS 伪类，比如 :hover</li>
+<li>操作 class 属性。</li>
+<li>脚本操作 DOM，增加删除或者修改 DOM 节点，元素尺寸改变——边距、填充、边框、宽度和高度。</li>
+<li>计算 offsetWidth 和 offsetHeight 属性。</li>
+<li>设置 style 属性的值。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="built_in">document</span>.body.style</span><br><span class="line">s.padding = <span class="string">"2px"</span>; <span class="comment">// 回流+重绘</span></span><br><span class="line">s.border = <span class="string">"1px solid red"</span>; <span class="comment">// 回流+重绘</span></span><br><span class="line">s.color = <span class="string">"blue"</span>; <span class="comment">// 重绘</span></span><br><span class="line">s.backgroundColor = <span class="string">"#ccc"</span>; <span class="comment">// 重绘</span></span><br><span class="line">s.fontSize = <span class="string">"14px"</span>; <span class="comment">// 再一次 回流+重绘</span></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">'abc!'</span>)); <span class="comment">// 回流+重绘</span></span><br></pre></td></tr></table></figure>
+<h2 id="聪明的浏览器"><a href="#聪明的浏览器" class="headerlink" title="聪明的浏览器"></a>聪明的浏览器</h2><p>如果向上述代码中那样，浏览器不停地回流+重绘，很可能性能开销非常大，实际上浏览器会优化这些操作，将所有引起回流和重绘的操作放入一个队列中，等待队列达到一定的数量或者时间间隔，就 flush 这个队列，一次性处理所有的回流和重绘。</p>
+<p>虽然有浏览器优化，但是当我们向浏览器请求一些 style 信息的时候，浏览器为了确保我们能拿到精确的值，就会提前 flush 队列，有可能会引发回流。</p>
+<ol>
+<li>offsetTop/Left/Width/Height</li>
+<li>scrollTop/Left/Width/Height</li>
+<li>clientTop/Left/Width/Height</li>
+<li>width,height</li>
+<li>getComputedStyle(), 或者 IE的 currentStyle</li>
+</ol>
+<h2 id="如何减少回流、重绘"><a href="#如何减少回流、重绘" class="headerlink" title="如何减少回流、重绘"></a>如何减少回流、重绘</h2><ol>
+<li><p>JavaScript 修改 class 的时候，就尽可能使用使用 classList 代替 className ，因为 className 只要赋值，就一定出现一次 rendering 计算；classList 的 add 和 remove，浏览器会进行样式名是否存在的判断，以减少重复的 rendering。<br>尽可能在DOM树的里面改变class，可以限制了回流的范围，使其影响尽可能少的节点。例如，你应该避免通过改变对包装元素类去影响子节点的显示。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ele.className += <span class="string">'something'</span></span><br><span class="line">ele.classList.add(<span class="string">'something'</span>)</span><br><span class="line">ele.classList.remove(<span class="string">'something'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>避免使用table布局。</p>
+</li>
+<li><p>保持 DOM 操作“原子性”</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="comment">// 下面这个读取操作会导致连续的清空和放入操作到 重绘+回流队列</span></span><br><span class="line"><span class="keyword">var</span> newWidth = ele.offsetWidth + <span class="number">10</span>;</span><br><span class="line">ele.style.width = newWidth + <span class="string">'px'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newHeight = ele.offsetHeight + <span class="number">10</span>;</span><br><span class="line">ele.style.height = newHeight + <span class="string">'px'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good 读写分离，批量操作</span></span><br><span class="line"><span class="keyword">var</span> newWidth = ele.offsetWidth + <span class="number">10</span>; <span class="comment">// read</span></span><br><span class="line"><span class="keyword">var</span> newHeight = ele.offsetHeight + <span class="number">10</span>; <span class="comment">// read</span></span><br><span class="line">ele.style.width = newWidth + <span class="string">'px'</span>; <span class="comment">// write</span></span><br><span class="line">ele.style.height = newHeight + <span class="string">'px'</span>; <span class="comment">// write</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果动态改变style，则使用cssText。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不好的写法</span></span><br><span class="line"><span class="keyword">var</span> left = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> top = <span class="number">1</span>;</span><br><span class="line">el.style.left = left + <span class="string">"px"</span>;</span><br><span class="line">el.style.right = right + <span class="string">"px"</span>;</span><br><span class="line"><span class="comment">//动态改变样式，比较好的写法</span></span><br><span class="line">el.style.cssText += <span class="string">";left:"</span> + left + <span class="string">"px; top:"</span> + top + <span class="string">"px;"</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不要经常访问会引起浏览器flush队列的属性，如果你确实要访问，利用缓存</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不好的写法</span></span><br><span class="line"><span class="keyword">for</span>(循环) &#123;</span><br><span class="line">     el.style.left = el.offsetLeft + <span class="number">5</span> + <span class="string">"px"</span>;</span><br><span class="line">     el.style.top = el.offsetTop + <span class="number">5</span> + <span class="string">"px"</span>;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">// 比较好的写法</span></span><br><span class="line"><span class="keyword">var</span> left = el.offsetLeft,</span><br><span class="line">	top = el.offsetTop,</span><br><span class="line">	s = el.style;</span><br><span class="line"><span class="keyword">for</span>(循环) &#123;</span><br><span class="line">     left += <span class="number">10</span>;</span><br><span class="line">     top += <span class="number">10</span>;</span><br><span class="line">     s.left = left + <span class="string">"px"</span>;</span><br><span class="line">     s.top = top + <span class="string">"px"</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流<br>动画效果应用到 position 属性为 absolute 或 fixed 的元素上，它们不影响其他元素的布局，所它他们只会导致重新绘制，而不是一个完整回流。这样消耗会更低。</p>
+<blockquote>
+<p>使用CSS3的transition也可以获得不错的性能。</p>
+</blockquote>
+</li>
+</ol>
+<p>假设block1是<code>position: absolute</code>的元素，block2是<code>position: relative</code>的元素。当使用jquery的<code>animate()</code>方法移动元素来展示一些动画效果时<code>$(&quot;#block1&quot;).animate({left:50});</code>block1 移动，会影响到它父元素下的所有子元素。因为在移动过程中，所有子元素需要判断 block1 的<code>z-index</code>是否在自己的上面，如果是在自己的上面，则需要重绘，这里不会引起回流。</p>
+<p><code>$(&quot;#block2&quot;).animate({marginLeft:50});</code> , block2 是相对定位的元素，影响的元素与 block1 一样，但是因为 block2 非绝对定位，而且改变的是 marginLeft 属性，所以这里每次改变不但会重绘，还会引起父元素及其下元素的回流。</p>
+<p>​ 所以，动画效果应用到position属性为absolute或fixed的元素上，它们不影响其他元素的布局，所它他们只会导致重新绘制，而不是一个完整回流。这样消耗会更低。</p>
+<ol start="7">
+<li><p>让要操作的元素进行“离线处理”，处理完后一起更新。这里所谓的”离线处理”即让元素不存在于render tree中</p>
+<ul>
+<li>使用DocumentFragment进行缓存操作,引发一次回流和重绘；<ul>
+<li>这个主要用于添加元素的时候，就是先把所有要添加到元素添加到1个div中(这个div也是新加的)，最后才把这个div append到body中。</li>
+</ul>
+</li>
+<li>使用display:none技术，只引发两次回流和重绘；<ul>
+<li>先display:none 隐藏元素，然后对该元素进行所有的操作，最后再显示该元素。因对display:none的元素进行操作不会引起回流、重绘。所以只要操作只会有2次回流。</li>
+</ul>
+</li>
+<li><p>使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘。</p>
+<p>假如需要在下面的 html 中添加两个 li 节点：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">""</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> ul = <span class="built_in">document</span>.getElementByTagName(<span class="string">'ul'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> man = <span class="built_in">document</span>.createElement(<span class="string">'li'</span>)</span></span><br><span class="line"><span class="actionscript">man.innerHTML = <span class="string">'man'</span></span></span><br><span class="line"><span class="undefined">ul.appendChild(li)</span></span><br><span class="line"><span class="undefined"> </span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> woman = <span class="built_in">document</span>.createElement(<span class="string">'li'</span>)</span></span><br><span class="line"><span class="actionscript">woman.innerHTML = <span class="string">'woman'</span></span></span><br><span class="line"><span class="undefined">ul.appendChild(woman)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上述代码会发生两次回流，假如使用 <code>display: none</code> 的方案，虽然能够减少回流次数，但是会发生一次闪烁，这时候使用 <code>DocumentFragment</code> 的优势就体现出来了。</p>
+<p>DocumentFragment 有两大特点：</p>
+</li>
+<li><p>DocumentFragment 节点不属于文档树，继承的 parentNode 属性总是 null。</p>
+</li>
+<li>当请求把一个 DocumentFragment 节点插入文档树时，插入的不是 DocumentFragment 自身，而是它的所有子孙节点。这使得 DocumentFragment 成了有用的占位符，暂时存放那些一次插入文档的节点。它还有利于实现文档的剪切、复制和粘贴操作。、<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fragment = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> man = <span class="built_in">document</span>.createElement(<span class="string">'li'</span>)</span><br><span class="line"><span class="keyword">let</span> woman = <span class="built_in">document</span>.createElement(<span class="string">'li'</span>)</span><br><span class="line">man.innerHTML = <span class="string">'man'</span></span><br><span class="line">woman.innerHTML = <span class="string">'woman'</span></span><br><span class="line">fragment.appendChild(man)</span><br><span class="line">fragment.appendChild(woman)</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(spanNode)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>避免使用CSS表达式（例如：calc()）</p>
+</li>
+</ol>
+<p>这项规则较过时，但确实是个好的主意。主要的原因，这些表现是如此昂贵，是因为他们每次重新计算文档，或部分文档、回流。正如我们从所有的很多事情看到的：引发回流，它可以每秒产生成千上万次。当心！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%E9%A1%B5%E9%9D%A2%E9%87%8D%E7%BB%98%E5%92%8C%E5%9B%9E%E6%B5%81/" target="_blank" rel="noopener">Web性能优化-页面重绘和回流</a><br><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="noopener">网页性能管理详解</a><br><a href="https://www.cnblogs.com/blueSkys/p/3685740.html" target="_blank" rel="noopener">了解DocumentFragment 给我们带来的性能优化</a><br><a href="http://www.blogjava.net/BearRui/archive/2010/05/10/web_performance_repaint_relow.html" target="_blank" rel="noopener">高性能WEB开发(8) - 页面呈现、重绘、回流</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    如果对本文 <a href="https://daihaoxin.github.io/post/49cb51ee.html" title="[转]重绘与重排(回流)">[转]重绘与重排(回流)</a> 的内容有疑问，请在下面的评论系统中留言，谢谢。
+  </li>
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    xingmu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daihaoxin.github.io/post/49cb51ee.html" title="[转]重绘与重排(回流)">https://daihaoxin.github.io/post/49cb51ee.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+    
+    
+    <footer class="post-footer">
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/6b1caa88.html" rel="next" title="[转]事件循环是如何影响页面渲染的？">
+                <i class="fa fa-chevron-left"></i> [转]事件循环是如何影响页面渲染的？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/7c5a0d00.html" rel="prev" title="npx的使用">
+                npx的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="xingmu">
+            
+              <p class="site-author-name" itemprop="name">xingmu</p>
+              <p class="site-description motion-element" itemprop="description">他带着面具却演绎出了表情</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">96</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/daihaoxin" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-.github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:daixingmu@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+          
+          
+          
+            
+              <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <!-- modify icon to fire by szw -->
+                <i class="fa fa-fw fa-history" aria-hidden="true"></i>
+                近期文章
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                
+                <li>
+                  <a href="/post/5f8b2e94.html" title="linux下多个git账号的配置">linux下多个git账号的配置</a>
+                </li>
+                
+                <li>
+                  <a href="/post/3d5f3b65.html" title="[转]阮一峰-IntersectionObserver API 使用教程">[转]阮一峰-IntersectionObserver API 使用教程</a>
+                </li>
+                
+                <li>
+                  <a href="/post/83f2f127.html" title="动手实现react-redux之五Provider终篇">动手实现react-redux之五Provider终篇</a>
+                </li>
+                
+                <li>
+                  <a href="/post/a24de6ae.html" title="动手实现react-redux之四mapDispatchToProps">动手实现react-redux之四mapDispatchToProps</a>
+                </li>
+                
+                <li>
+                  <a href="/post/e08ec58f.html" title="动手实现react-redux之三connect 和 mapStateToProps">动手实现react-redux之三connect 和 mapStateToProps</a>
+                </li>
+                
+              </ul>
+            </div>
+          
+          
+          
+          
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/daihaoxin" title="github" target="_blank">github</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/daihaoxin" title="github2" target="_blank">github2</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器是如何渲染一个页面的"><span class="nav-number">2.</span> <span class="nav-text">浏览器是如何渲染一个页面的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重绘与回流"><span class="nav-number">3.</span> <span class="nav-text">重绘与回流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重绘何时发生"><span class="nav-number">3.1.</span> <span class="nav-text">重绘何时发生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回流何时发生"><span class="nav-number">3.2.</span> <span class="nav-text">回流何时发生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聪明的浏览器"><span class="nav-number">4.</span> <span class="nav-text">聪明的浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何减少回流、重绘"><span class="nav-number">5.</span> <span class="nav-text">如何减少回流、重绘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xingmu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="nofollow" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" rel="nofollow" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https:////busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: "990334f29184c3de4698",
+      clientSecret: "a95b50893b63f106b15b7de015bfac7eca0194fa",
+      repo: "daihaoxin.github.io",
+      owner: "daihaoxin",
+      admin: ["daihaoxin"],
+      id: location.pathname,
+      distractionFreeMode: "true"
+    });
+    gitalk.render("gitalk-container");
+  </script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
