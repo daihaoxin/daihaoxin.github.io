@@ -13,6 +13,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[linux在终端通过命令打开文件夹]]></title>
+    <url>%2Fpost%2Fc1433548.html</url>
+    <content type="text"><![CDATA[在 deepin linux 中提供了一个叫 dde-file-manager 的命令可以在命令行打开制定路径的文件夹。 1234# 打开当前位置的文件夹dde-file-manager .# 打开指定位置的文件夹dde-file-manager /usr/local 使用nautilus linux 图形化桌面 GNOME 包括了一个叫做 Nautilus 的文件管理器，可以通过安装 nautilus 来使用 nautilus 命令，在命令窗口中直接打开指定的文件夹。123456# 安装nautilussudo apt-get install nautilus# 打开当前位置的文件夹nautilus .# 打开指定位置的文件夹nautilus /usr/local]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>deepin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[idea消息框等界面中文显示成小方块]]></title>
     <url>%2Fpost%2F3050fa27.html</url>
     <content type="text"><![CDATA[操作系统环境是deepin linux，版本是 2018.3 ，搜索窗口、帮助窗口、消息窗口等出现乱码，idea、webstorm、pycharm 都出现这样的情况，如下图所示。 这个乱码跟编码格式无关，根本原因是 IDE 的界面主题使用的字体，显示中文有 bug ，所以只有设置下中文字体就可以解决了，我这里设置的 微软雅黑。 另外说一下就是，在 deepin linux 中如果无法找到中文字体，可以去网上下载，通过系统自带的字体安装器安装到系统，然后重启 IDE 就可以选择了。]]></content>
@@ -20,6 +31,7 @@
         <category>编辑器</category>
       </categories>
       <tags>
+        <tag>deepin</tag>
         <tag>idea</tag>
       </tags>
   </entry>
