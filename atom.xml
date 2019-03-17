@@ -41,6 +41,28 @@
   </entry>
   
   <entry>
+    <title>idea消息框等界面中文显示成小方块</title>
+    <link href="https://daihaoxin.github.io/post/3050fa27.html"/>
+    <id>https://daihaoxin.github.io/post/3050fa27.html</id>
+    <published>2019-03-06T10:00:00.000Z</published>
+    <updated>2019-03-17T11:06:39.848Z</updated>
+    
+    <content type="html"><![CDATA[<p>操作系统环境是deepin linux，版本是 2018.3 ，搜索窗口、帮助窗口、消息窗口等出现乱码，idea、webstorm、pycharm 都出现这样的情况，如下图所示。<br><img src="/images/idea-中文乱码-01.png" alt=""></p><p>这个乱码跟编码格式无关，根本原因是 IDE 的界面主题使用的字体，显示中文有 bug ，所以只有设置下中文字体就可以解决了，我这里设置的 微软雅黑。<br><img src="/images/idea-中文乱码-02.png" alt=""></p><p>另外说一下就是，在 deepin linux 中如果无法找到中文字体，可以去网上下载，通过系统自带的字体安装器安装到系统，然后重启 IDE 就可以选择了。<br><img src="/images/idea-中文乱码-03.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      解决 idea 系列编辑器在消息框中，中文显示小方块的问题
+    
+    </summary>
+    
+      <category term="编辑器" scheme="https://daihaoxin.github.io/categories/%E7%BC%96%E8%BE%91%E5%99%A8/"/>
+    
+    
+      <category term="idea" scheme="https://daihaoxin.github.io/tags/idea/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[转]阮一峰-IntersectionObserver API 使用教程</title>
     <link href="https://daihaoxin.github.io/post/3d5f3b65.html"/>
     <id>https://daihaoxin.github.io/post/3d5f3b65.html</id>
@@ -479,30 +501,6 @@
     
     
       <category term="算法" scheme="https://daihaoxin.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>centos编译安装nginx</title>
-    <link href="https://daihaoxin.github.io/post/25974cd9.html"/>
-    <id>https://daihaoxin.github.io/post/25974cd9.html</id>
-    <published>2019-01-03T12:07:00.000Z</published>
-    <updated>2019-03-17T06:19:04.447Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><p>下载并解压</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl -o https://nginx.org/download/nginx-1.14.2.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar zxvf nginx-1.14.2.tar.gz</span></span><br></pre></td></tr></table></figure></li><li><p>执行<code>configure</code>命令，生成<code>Makefile</code>文件</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看编译参数</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure  --<span class="built_in">help</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译时启用四个模块</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure --with-http_ssl_module --with-http_realip_module --with-http_geoip_module --with-http_stub_status_module</span></span><br></pre></td></tr></table></figure></li></ol><ul><li><p>若出现<code>./configure: error: C compiler cc is not found</code>错误，则执行：</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yum -y install gcc gcc-c++ autoconf automake make</span></span><br></pre></td></tr></table></figure></li><li><p>若出现<code>./configure: error: the HTTP rewrite module requires the PCRE library.</code>错误，则执行：</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    $ yum install pcre-devel </span><br><span class="line">    ``` </span><br><span class="line">- 若出现`./configure: error: SSL modules require the OpenSSL library.`错误，则执行：</span><br><span class="line">    ```shell</span><br><span class="line">    $ yum -y install openssl openssl-devel</span><br></pre></td></tr></table></figure></li><li><p>若出现<code>./configure: error: the GeoIP module requires the GeoIP library.</code>错误，则执行：</p>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yum -y install GeoIP-devel</span></span><br></pre></td></tr></table></figure></li></ul><p>看到如下提示表示生成成功：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Configuration summary</span><br><span class="line">  + using<span class="built_in"> system </span>PCRE library</span><br><span class="line">  + using<span class="built_in"> system </span>OpenSSL library</span><br><span class="line">  + using<span class="built_in"> system </span>zlib library</span><br><span class="line"></span><br><span class="line">  nginx path prefix: <span class="string">"/usr/local/nginx"</span></span><br><span class="line">  nginx binary file: <span class="string">"/usr/local/nginx/sbin/nginx"</span></span><br><span class="line">  nginx modules path: <span class="string">"/usr/local/nginx/modules"</span></span><br><span class="line">  nginx configuration prefix: <span class="string">"/usr/local/nginx/conf"</span></span><br><span class="line">  nginx configuration file: <span class="string">"/usr/local/nginx/conf/nginx.conf"</span></span><br><span class="line">  nginx pid file: <span class="string">"/usr/local/nginx/logs/nginx.pid"</span></span><br><span class="line">  nginx <span class="builtin-name">error</span> log file: <span class="string">"/usr/local/nginx/logs/error.log"</span></span><br><span class="line">  nginx http access log file: <span class="string">"/usr/local/nginx/logs/access.log"</span></span><br><span class="line">  nginx http<span class="built_in"> client </span>request body temporary files: <span class="string">"client_body_temp"</span></span><br><span class="line">  nginx http<span class="built_in"> proxy </span>temporary files: <span class="string">"proxy_temp"</span></span><br><span class="line">  nginx http fastcgi temporary files: <span class="string">"fastcgi_temp"</span></span><br><span class="line">  nginx http uwsgi temporary files: <span class="string">"uwsgi_temp"</span></span><br><span class="line">  nginx http scgi temporary files: <span class="string">"scgi_temp"</span></span><br></pre></td></tr></table></figure></p><ol start="3"><li>编译安装<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure></li></ol><p>PS: 可以通过<code>make clean</code>来清除<code>Makefile</code>。</p><p>如果一切正常，则<code>nginx</code>会被安装到<code>/usr/local/nginx</code>目录，该目录主要包含 <code>conf</code>、 <code>html</code> 、<code>logs</code> 、<code>sbin</code> 四个目录。</p><ul><li>conf 存放了<code>nginx</code>的所有配置文件。其中，nginx.conf文件是<code>nginx</code>服务器的主配置文件，其他配置文件是用来配置<code>nginx</code>的相关功能，比如，fastcgi.cong和fastcgi_params用来配置fastcgi。</li><li>html 该目录存放了<code>nginx</code>服务器在运行过程中调用的一些html文件。index.html文件是在服务器运行成功后默认返回的网页；50x.html是在<code>nginx</code>服务器出现某些问题时将会调用该页面。</li><li>logs 顾名思义，用来存放<code>nginx</code>服务器的日志。因为目前服务器还未启动，所以该目录为空。</li><li>sbin 只有一个nginx文件，该文件就是<code>nginx</code>服务器的主程序了。</li></ul><ol start="4"><li><p>启动nginx</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./usr/<span class="built_in">local</span>/nginx/sbin/nginx</span></span><br></pre></td></tr></table></figure></li><li><p>是否成功</p></li></ol><ul><li>访问ip，出现下图表示成功<br><img src="/images/nginx.png" alt=""></li><li>ps验证：显示已经启动成功<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ps -ef|grep nginx</span></span><br><span class="line">  root      8483     1  0 21:21 ?        00:00:00 nginx: master process ./nginx</span><br><span class="line">  nobody    8484  8483  0 21:21 ?        00:00:00 nginx: worker process</span><br><span class="line">  root     13186 12897  0 22:17 pts/1    00:00:00 grep --color=auto nginx</span><br></pre></td></tr></table></figure></li></ul><ol start="6"><li>目前只能用<code>/usr/local/nginx/sbin/nginx</code>,不能全局使用 <code>nginx</code>. 需要在系统环境变量添加一行代码,首先打开系统环境变量文件:<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vi /etc/profile</span></span><br></pre></td></tr></table></figure></li></ol><p>在末尾追加一行<code>PATH=$PATH:/usr/local/webserver/nginx/sbin</code>, <code>:wq</code> 保存后,执行下面命令即可立即生效:<br><code>source /etc/profile</code>。</p><ol start="7"><li>常用命令<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nginx  <span class="comment">#启动nginx</span></span><br><span class="line">nginx -s quit  <span class="comment">#快速停止nginx</span></span><br><span class="line">nginx -V <span class="comment">#查看版本，以及配置文件地址</span></span><br><span class="line">nginx -v <span class="comment">#查看版本</span></span><br><span class="line">nginx -s reload|<span class="string">reopen</span>|<span class="string">stop</span>|<span class="string">quit   #重新加载配置</span>|<span class="string">重启</span>|<span class="string">快速停止</span>|<span class="string">安全关闭nginx</span></span><br><span class="line"><span class="string">nginx -h #帮助</span></span><br></pre></td></tr></table></figure></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      centos编译安装nginx
-    
-    </summary>
-    
-      <category term="linux" scheme="https://daihaoxin.github.io/categories/linux/"/>
-    
-    
-      <category term="nginx" scheme="https://daihaoxin.github.io/tags/nginx/"/>
-    
-      <category term="centos" scheme="https://daihaoxin.github.io/tags/centos/"/>
     
   </entry>
   
