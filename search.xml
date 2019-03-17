@@ -599,9 +599,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[webpack中的runtimeChunk]]></title>
-    <url>%2Fpost%2F97178d24.html</url>
-    <content type="text"><![CDATA[webpack 4 提供了 runtimeChunk 能让我们方便的提取 manifest，以前我们需要这样配置1234new webpack.optimize.CommonsChunkPlugin(&#123; name: "manifest", minChunks: Infinity&#125;); 现在只要一行配置就可以了123&#123; runtimeChunk: true;&#125; 它的作用是将包含chunks 映射关系的 list单独从 app.js里提取出来，因为每一个 chunk 的 id 基本都是基于内容 hash 出来的，所以你每次改动都会影响它，如果不将它提取出来的话，等于app.js每次都会改变，导致缓存失效。 单独抽离 runtimeChunk 之后，每次打包都会生成一个runtimeChunk.xxx.js，其实这个文件非常的小，gzip 之后一般只有几 kb，但这个文件又经常会改变，我们每次都需要重新请求它，它的 http 耗时远大于它的执行时间了，所以建议不要将它单独拆包，而是将它内联到我们的 index.html 之中(index.html 本来每次打包都会变)。可以使用 inline-manifest-webpack-plugin或者 assets-webpack-plugin等来实现内联的效果。 1234567891011const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");new HtmlWebpackPlugin(&#123; template: paths.appHtml, filename: "index.html", // chunks sort by chunk Id chunksSortMode: "auto"&#125;),// 注意一定要在HtmlWebpackPlugin之后引用// inline 的name 和你 runtimeChunk 的 name保持一致// if you changed the runtimeChunk's name, you need to sync it herenew InlineManifestWebpackPlugin("manifest"),]]></content>
+    <title><![CDATA[webpack中hash、chunkhash和contenthash的区别]]></title>
+    <url>%2Fpost%2Fa6a2aa2b.html</url>
+    <content type="text"><![CDATA[hashhash 和每次 build 有关，没有任何改变的情况下，每次编译出来的 hash 都是一样的，但当你改变了任何一点东西，它的hash 就会发生改变。简单的说就是你改了任何东西，hash 就会和上次不一样了。 chunkhashchunkhash是根据具体每一个模块文件自己的的内容包括它的依赖计算所得的hash，所以某个文件的改动只会影响它本身的hash，不会影响其它文件。 contenthash它的出现主要是为了解决，让css文件不受js文件的影响。比如foo.css被foo.js引用了，所以它们共用相同的chunkhash值。但这样子是有问题的，如果foo.js修改了代码，css文件就算内容没有任何改变，由于是该模块的 hash 发生了改变，其css文件的hash也会随之改变。 这个时候我们就可以使用contenthash了，保证即使css文件所处的模块里有任何内容的改变，只要 css 文件内容不变，那么它的hash就不会发生变化。 contenthash 简单理解就是 moduleId.content 所生成的 hash。]]></content>
       <categories>
         <category>javascript</category>
       </categories>
@@ -610,9 +610,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[webpack中hash、chunkhash和contenthash的区别]]></title>
-    <url>%2Fpost%2Fa6a2aa2b.html</url>
-    <content type="text"><![CDATA[hashhash 和每次 build 有关，没有任何改变的情况下，每次编译出来的 hash 都是一样的，但当你改变了任何一点东西，它的hash 就会发生改变。简单的说就是你改了任何东西，hash 就会和上次不一样了。 chunkhashchunkhash是根据具体每一个模块文件自己的的内容包括它的依赖计算所得的hash，所以某个文件的改动只会影响它本身的hash，不会影响其它文件。 contenthash它的出现主要是为了解决，让css文件不受js文件的影响。比如foo.css被foo.js引用了，所以它们共用相同的chunkhash值。但这样子是有问题的，如果foo.js修改了代码，css文件就算内容没有任何改变，由于是该模块的 hash 发生了改变，其css文件的hash也会随之改变。 这个时候我们就可以使用contenthash了，保证即使css文件所处的模块里有任何内容的改变，只要 css 文件内容不变，那么它的hash就不会发生变化。 contenthash 简单理解就是 moduleId.content 所生成的 hash。]]></content>
+    <title><![CDATA[webpack中的runtimeChunk]]></title>
+    <url>%2Fpost%2F97178d24.html</url>
+    <content type="text"><![CDATA[webpack 4 提供了 runtimeChunk 能让我们方便的提取 manifest，以前我们需要这样配置1234new webpack.optimize.CommonsChunkPlugin(&#123; name: "manifest", minChunks: Infinity&#125;); 现在只要一行配置就可以了123&#123; runtimeChunk: true;&#125; 它的作用是将包含chunks 映射关系的 list单独从 app.js里提取出来，因为每一个 chunk 的 id 基本都是基于内容 hash 出来的，所以你每次改动都会影响它，如果不将它提取出来的话，等于app.js每次都会改变，导致缓存失效。 单独抽离 runtimeChunk 之后，每次打包都会生成一个runtimeChunk.xxx.js，其实这个文件非常的小，gzip 之后一般只有几 kb，但这个文件又经常会改变，我们每次都需要重新请求它，它的 http 耗时远大于它的执行时间了，所以建议不要将它单独拆包，而是将它内联到我们的 index.html 之中(index.html 本来每次打包都会变)。可以使用 inline-manifest-webpack-plugin或者 assets-webpack-plugin等来实现内联的效果。 1234567891011const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");new HtmlWebpackPlugin(&#123; template: paths.appHtml, filename: "index.html", // chunks sort by chunk Id chunksSortMode: "auto"&#125;),// 注意一定要在HtmlWebpackPlugin之后引用// inline 的name 和你 runtimeChunk 的 name保持一致// if you changed the runtimeChunk's name, you need to sync it herenew InlineManifestWebpackPlugin("manifest"),]]></content>
       <categories>
         <category>javascript</category>
       </categories>
@@ -1166,14 +1166,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[关于]]></title>
-    <url>%2Fabout%2Findex.html</url>
-    <content type="text"><![CDATA[签名 学习是一条令人时而喜极若狂、时而郁郁寡欢的道路。 个人信息 网名：星木（xingmu），略懂JS、HTML/CSS、NODEJS、JAJA，linux，欢迎沟通交流。 关于Blog本站是使用 Hexo 搭建，镜像托管在 Github 之上，博客主题使用的是非常漂亮、简洁的 Next 主题。 本站是为了个人交流学习而搭建，本站内容若非注明【转】均来自本人撰写，转载必会注明原文引用地址，若您认为侵犯你的个人知识产权，请联系我(daixingmu@qq.com)，我会第一时间和您进行沟通处理。若你喜欢本站内容，欢迎转载，但请注明出处，且勿用于商业用途，谢谢！！！ 联系方式 邮箱：daixingmu@qq.com]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[分类]]></title>
     <url>%2Fcategories%2Findex.html</url>
     <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[关于]]></title>
+    <url>%2Fabout%2Findex.html</url>
+    <content type="text"><![CDATA[签名 学习是一条令人时而喜极若狂、时而郁郁寡欢的道路。 个人信息 网名：星木（xingmu），略懂JS、HTML/CSS、NODEJS、JAJA，linux，欢迎沟通交流。 关于Blog本站是使用 Hexo 搭建，镜像托管在 Github 之上，博客主题使用的是非常漂亮、简洁的 Next 主题。 本站是为了个人交流学习而搭建，本站内容若非注明【转】均来自本人撰写，转载必会注明原文引用地址，若您认为侵犯你的个人知识产权，请联系我(daixingmu@qq.com)，我会第一时间和您进行沟通处理。若你喜欢本站内容，欢迎转载，但请注明出处，且勿用于商业用途，谢谢！！！ 联系方式 邮箱：daixingmu@qq.com]]></content>
   </entry>
   <entry>
     <title><![CDATA[标签]]></title>
