@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://daihaoxin.github.io/images/深度学习环境安装-04.png">
 <meta property="og:image" content="https://daihaoxin.github.io/images/深度学习环境安装-06.png">
 <meta property="og:image" content="https://daihaoxin.github.io/images/深度学习环境安装-05.png">
-<meta property="og:updated_time" content="2019-03-17T15:17:54.052Z">
+<meta property="og:updated_time" content="2019-03-17T15:40:24.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="deepin linux安装nvidia驱动、cuda9、cudnn7">
 <meta name="twitter:description" content="迈出深度学习的第一步">
@@ -387,7 +387,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  976 字
+                  1.1k 字
                 </span>
               
 
@@ -403,7 +403,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4 分钟
+                  5 分钟
                 </span>
               
             </span>
@@ -428,7 +428,8 @@
       
 
       
-        <p>安装深度学习的环境还是很复杂的，特别是 linux 下安装，新手更是闹不明白，笔者在安装的过程中因为执行错了命令，导致系统重做，各种血泪，本文是在重新安装的系统上实践出来的结果，仅供参考</p>
+        <p><a href="https://www.cnblogs.com/tiandsp/p/9441494.html" target="_blank" rel="noopener">cuda和gcc版本兼容的说明</a></p>
+<p>安装深度学习的环境还是很复杂的，特别是 linux 下安装，新手更是闹不明白，笔者在安装的过程中因为执行错了命令，导致系统重做，各种血泪，本文是在重新安装的系统上实践出来的结果，仅供参考</p>
 <h2 id="安装nvidia驱动"><a href="#安装nvidia驱动" class="headerlink" title="安装nvidia驱动"></a>安装nvidia驱动</h2><ol>
 <li><p>安装驱动</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nvidia-smi nvidia-driver</span><br></pre></td></tr></table></figure>
@@ -442,8 +443,8 @@
 </li>
 </ol>
 <p><img src="/images/深度学习环境安装-04.png" alt=""></p>
-<h2 id="安装cuda"><a href="#安装cuda" class="headerlink" title="安装cuda"></a>安装cuda</h2><p>驱动安装完成后，就可以安装 cuda 了。</p>
-<p>cuda建议使用官方的安装的包，不要使用默认安装源内的版本，容易出现不兼容的问题。</p>
+<h2 id="安装cuda"><a href="#安装cuda" class="headerlink" title="安装cuda"></a>安装cuda</h2><p>驱动安装完成后，就可以安装 cuda 了，不过在此之前还需要检查下<code>gcc</code>和<code>g++</code>的版本是否在 4.9~6.0之间，deepin自带的是7.+，需要降级。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install g++-6 gcc-6</span><br><span class="line">cd /usr/bin</span><br><span class="line">sudo rm gcc g++</span><br><span class="line">sudo ln -s g++-6 g++</span><br><span class="line">sudo ln -s gcc-6 gcc</span><br></pre></td></tr></table></figure></p>
+<p>可以正式开始安装，cuda建议使用官方的安装的包，不要使用默认安装源内的版本，容易出现不兼容的问题。</p>
 <ol>
 <li><p><a href="https://developer.nvidia.com/cuda-90-download-archive" target="_blank" rel="noopener">下载 cuda 9.0</a>，这里选择了如下图。<br><img src="/images/深度学习环境安装-06.png" alt=""></p>
 </li>
@@ -653,7 +654,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">100</span>
+                  <span class="site-state-item-count">101</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -738,11 +739,11 @@
                 </li>
                 
                 <li>
-                  <a href="/post/c1433548.html" title="linux在终端通过命令打开文件夹">linux在终端通过命令打开文件夹</a>
+                  <a href="/post/36da9d0d.html" title="deepin中安装jdk">deepin中安装jdk</a>
                 </li>
                 
                 <li>
-                  <a href="/post/3050fa27.html" title="idea消息框等界面中文显示成小方块">idea消息框等界面中文显示成小方块</a>
+                  <a href="/post/c1433548.html" title="linux在终端通过命令打开文件夹">linux在终端通过命令打开文件夹</a>
                 </li>
                 
               </ul>
