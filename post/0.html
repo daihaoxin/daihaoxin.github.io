@@ -88,17 +88,17 @@
 
 
 
-<meta name="description" content="title:’查看 deepin 对应的 debian 版本’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:02:00打开终端输入： 1cat /etc/debian_version 你会发现的。">
+<meta name="description" content="title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:00:00之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="新的开始">
 <meta property="og:url" content="https://daihaoxin.github.io/post/0.html">
 <meta property="og:site_name" content="新的开始">
-<meta property="og:description" content="title:’查看 deepin 对应的 debian 版本’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:02:00打开终端输入： 1cat /etc/debian_version 你会发现的。">
+<meta property="og:description" content="title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:00:00之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-24T07:14:04.369Z">
+<meta property="og:updated_time" content="2019-03-24T16:09:41.417Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新的开始">
-<meta name="twitter:description" content="title:’查看 deepin 对应的 debian 版本’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:02:00打开终端输入： 1cat /etc/debian_version 你会发现的。">
+<meta name="twitter:description" content="title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:00:00之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的">
 
 
 
@@ -373,7 +373,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  45 字
+                  213 字
                 </span>
               
 
@@ -411,10 +411,11 @@
 
       
         <hr>
-<p>title:’查看 deepin 对应的 debian 版本’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p>
-<h2 id="date-2019-01-24-14-02-00"><a href="#date-2019-01-24-14-02-00" class="headerlink" title="date:2019-01-24 14:02:00"></a>date:2019-01-24 14:02:00</h2><p>打开终端输入：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/debian_version</span><br></pre></td></tr></table></figure>
-<p>你会发现的。</p>
+<p>title:’deepin 15.9 安装recovery mode’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p>
+<h2 id="date-2019-01-24-14-00-00"><a href="#date-2019-01-24-14-00-00" class="headerlink" title="date:2019-01-24 14:00:00"></a>date:2019-01-24 14:00:00</h2><p>之前用15.6的时候，启动菜单有一个<code>Recovery Mode</code>，进去就可以备份。后来全新安装了<code>15.7</code> 、<code>15.9</code>发现没有这个菜单了，是因为后面的版本没有集成这个功能。</p>
+<p>而在高级选项里面的一个 <code>Recovery Mode</code>，进去之后变成了命令行，这时因为这个二级菜单里的 <code>recover mode</code> 是 <code>debian/ubuntu</code> 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 <code>Recovery Mode</code>，需要安装一下，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install live-filesystem</span><br></pre></td></tr></table></figure>
+<p>安装后在 grub 一级菜单会出现 <code>deepin recovery</code> 选项，就可以愉快的备份了，再也不用担心文件丢失。</p>
 
       
     </div>
@@ -723,7 +724,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2019-01-24-14-02-00"><span class="nav-number">1.</span> <span class="nav-text">date:2019-01-24 14:02:00</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#date-2019-01-24-14-00-00"><span class="nav-number">1.</span> <span class="nav-text">date:2019-01-24 14:00:00</span></a></li></ol></div>
             
 
           </div>

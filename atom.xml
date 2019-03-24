@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daihaoxin.github.io/"/>
-  <updated>2019-03-24T07:13:55.149Z</updated>
+  <updated>2019-03-24T16:10:12.881Z</updated>
   <id>https://daihaoxin.github.io/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="https://daihaoxin.github.io/post/0.html"/>
     <id>https://daihaoxin.github.io/post/0.html</id>
     <published>2019-03-23T16:00:00.000Z</published>
-    <updated>2019-03-24T07:13:55.149Z</updated>
+    <updated>2019-03-24T16:10:12.881Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title:’deepin 15.9 安装recovery mode’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p><h2 id="date-2019-01-24-14-00-00"><a href="#date-2019-01-24-14-00-00" class="headerlink" title="date:2019-01-24 14:00:00"></a>date:2019-01-24 14:00:00</h2><p>之前用15.6的时候，启动菜单有一个<code>Recovery Mode</code>，进去就可以备份。后来全新安装了<code>15.7</code> 、<code>15.9</code>发现没有这个菜单了，是因为后面的版本没有集成这个功能。</p><p>而在高级选项里面的一个 <code>Recovery Mode</code>，进去之后变成了命令行，这时因为这个二级菜单里的 <code>recover mode</code> 是 <code>debian/ubuntu</code> 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 <code>Recovery Mode</code>，需要安装一下，命令如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install live-filesystem</span><br></pre></td></tr></table></figure><p>安装后在 grub 一级菜单会出现 <code>deepin recovery</code> 选项，就可以愉快的备份了，再也不用担心文件丢失。</p>]]></content>
+    <content type="html"><![CDATA[<hr><p>title:’查看 deepin 对应的 debian 版本’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p><h2 id="date-2019-01-24-14-02-00"><a href="#date-2019-01-24-14-02-00" class="headerlink" title="date:2019-01-24 14:02:00"></a>date:2019-01-24 14:02:00</h2><p>打开终端输入：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/debian_version</span><br></pre></td></tr></table></figure><p>你会发现的。</p>]]></content>
     
     <summary type="html">
     
       
       
         &lt;hr&gt;
-&lt;p&gt;title:’deepin 15.9 安装recovery mode’&lt;br&gt;description:’记录 deepin linux 使用的日常’&lt;br&gt;tags:[deepin]&lt;br&gt;categories:[linux]&lt;/p&gt;
-&lt;h2 id=&quot;date-2
+&lt;p&gt;title:’查看 deepin 对应的 debian 版本’&lt;br&gt;description:’记录 deepin linux 使用的日常’&lt;br&gt;tags:[deepin]&lt;br&gt;categories:[linux]&lt;/p&gt;
+&lt;h2 id=&quot;date-2019-
       
     
     </summary>
@@ -44,17 +44,17 @@
     <link href="https://daihaoxin.github.io/post/0.html"/>
     <id>https://daihaoxin.github.io/post/0.html</id>
     <published>2019-03-23T16:00:00.000Z</published>
-    <updated>2019-03-24T07:14:04.369Z</updated>
+    <updated>2019-03-24T16:09:41.417Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title:’查看 deepin 对应的 debian 版本’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p><h2 id="date-2019-01-24-14-02-00"><a href="#date-2019-01-24-14-02-00" class="headerlink" title="date:2019-01-24 14:02:00"></a>date:2019-01-24 14:02:00</h2><p>打开终端输入：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/debian_version</span><br></pre></td></tr></table></figure><p>你会发现的。</p>]]></content>
+    <content type="html"><![CDATA[<hr><p>title:’deepin 15.9 安装recovery mode’<br>description:’记录 deepin linux 使用的日常’<br>tags:[deepin]<br>categories:[linux]</p><h2 id="date-2019-01-24-14-00-00"><a href="#date-2019-01-24-14-00-00" class="headerlink" title="date:2019-01-24 14:00:00"></a>date:2019-01-24 14:00:00</h2><p>之前用15.6的时候，启动菜单有一个<code>Recovery Mode</code>，进去就可以备份。后来全新安装了<code>15.7</code> 、<code>15.9</code>发现没有这个菜单了，是因为后面的版本没有集成这个功能。</p><p>而在高级选项里面的一个 <code>Recovery Mode</code>，进去之后变成了命令行，这时因为这个二级菜单里的 <code>recover mode</code> 是 <code>debian/ubuntu</code> 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 <code>Recovery Mode</code>，需要安装一下，命令如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install live-filesystem</span><br></pre></td></tr></table></figure><p>安装后在 grub 一级菜单会出现 <code>deepin recovery</code> 选项，就可以愉快的备份了，再也不用担心文件丢失。</p>]]></content>
     
     <summary type="html">
     
       
       
         &lt;hr&gt;
-&lt;p&gt;title:’查看 deepin 对应的 debian 版本’&lt;br&gt;description:’记录 deepin linux 使用的日常’&lt;br&gt;tags:[deepin]&lt;br&gt;categories:[linux]&lt;/p&gt;
-&lt;h2 id=&quot;date-2019-
+&lt;p&gt;title:’deepin 15.9 安装recovery mode’&lt;br&gt;description:’记录 deepin linux 使用的日常’&lt;br&gt;tags:[deepin]&lt;br&gt;categories:[linux]&lt;/p&gt;
+&lt;h2 id=&quot;date-2
       
     
     </summary>
@@ -137,7 +137,7 @@
     <published>2019-03-10T12:40:00.000Z</published>
     <updated>2019-03-17T16:02:07.560Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">下载jdk</a></p><ol><li><p>解压</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mv /opt</span><br><span class="line">$ mkdir java</span><br><span class="line">$ cd java</span><br><span class="line">$ mv ~/Downloads/jdk-8u144-linux-x64.tar.gz .</span><br><span class="line">$ tar -zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">$ mv jdk-8u144 jdk1.8</span><br></pre></td></tr></table></figure></li><li><p>设置环境变量</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/profile</span><br></pre></td></tr></table></figure><p>在最后加入如下内容<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#set java environment</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=/opt/java/jdk1.8</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JRE_HOME</span>=/opt/java/jdk1.8/jre</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASS_PATH</span>=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$JAVA_HOME</span>/bin:$JRE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure></p><p>让修改生效<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> /etc/profile</span></span><br></pre></td></tr></table></figure></p><ol start="3"><li>验证<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$  java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">下载jdk</a></p><ol><li><p>解压</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mv /opt</span><br><span class="line">$ mkdir java</span><br><span class="line">$ cd java</span><br><span class="line">$ mv ~/Downloads/jdk-8u144-linux-x64.tar.gz .</span><br><span class="line">$ tar -zxvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">$ mv jdk-8u144 jdk1.8</span><br></pre></td></tr></table></figure></li><li><p>设置环境变量</p></li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/profile</span><br></pre></td></tr></table></figure><p>在最后加入如下内容<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#set java environment</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=/opt/java/jdk1.8</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JRE_HOME</span>=/opt/java/jdk1.8/jre</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASS_PATH</span>=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$JAVA_HOME</span>/bin:$JRE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure></p><p>让修改生效<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">source</span> <span class="regexp">/etc/</span>profile</span><br></pre></td></tr></table></figure></p><ol start="3"><li>验证<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$  java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure></li></ol>]]></content>
     
     <summary type="html">
     
