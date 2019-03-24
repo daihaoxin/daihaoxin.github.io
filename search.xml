@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title></title>
+    <url>%2Fpost%2F0.html</url>
+    <content type="text"><![CDATA[title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:00:00之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的版本没有集成这个功能。 而在高级选项里面的一个 Recovery Mode，进去之后变成了命令行，这时因为这个二级菜单里的 recover mode 是 debian/ubuntu 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 Recovery Mode，需要安装一下，命令如下： 1sudo apt-get install live-filesystem 安装后在 grub 一级菜单会出现 deepin recovery 选项，就可以愉快的备份了，再也不用担心文件丢失。]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>%2Fpost%2F0.html</url>
+    <content type="text"><![CDATA[title:’查看 deepin 对应的 debian 版本’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:02:00打开终端输入： 1cat /etc/debian_version 你会发现的。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[linux deepin安装tensorflow、opencv、pytorh]]></title>
     <url>%2Fpost%2F5b3541b1.html</url>
     <content type="text"><![CDATA[Tensorflow不同版本要求与CUDA及CUDNN版本对应关系 安装深度学习的环境还是很复杂的，特别是 linux 下安装，新手更是闹不明白，笔者在安装的过程中因为执行错了命令，导致系统重做，各种血泪，本文是在重新安装的系统上实践出来的结果，仅供参考 安装anaconda 下载anaconda, 这里下载的版本是Anaconda3-5.3.1-Linux-x86_64。 运行sudo bash Anaconda3-5.3.1-Linux-x86_64进行安装，一路默认可以。我修改了默认的安装路径/root/anaconda3到/opt/anaconda3 最后一步，询问是否将 anaconda3 添加到 .bashrc , 选择 no。 配置环境变量，sudo vi /etc/profile 编辑 profile。 在文件最后加入 export PATH=$PATH:/opt/anaconda3/bin ， 注意这里将 $PATH 放在了前面，主要是为了保证系统中默认的python版本不被覆盖，可以保证系统的正常运行不受影响 保存 profile ， 运行 source /etc/profile 使配置生效。 运行conda --version ， 输出conda 4.5.11表示安装成功。 创建深度学习环境并激活 创建一个环境并制定python版本为3.6，conda create --name ai python=3.6 激活这个环境source activate ai，这时可以在终端命令行的开头看到多了(ai)，表示当前正在一个叫ai的虚拟环境里运行。 安装tensorflow在 anaconda 创建的 ai 虚拟环境中安装 tensorflow-gpu 的 1.11.0。123$ pip install tensorflow-gpu=1.11.0Collecting tensorflow-gpu==1.12.0 Downloading https://files.pythonhosted.org/packages/55/7e/bec4d62e9dc95e828922c6cec38acd9461af8abe749f7c9def25ec4b2fdb/tensorflow_gpu-1.11.0-cp36-cp36m-manylinux1_x86_64.whl (281.7MB)... 如果 tensorflow-gpu 的下载速度太慢，可以将下载链接复制到迅雷里下载，迅速会快很多。下载完成之后可以通过pip install /path/下载文件 来进行安装。 安装完成之后进行测试，新建一个test.py，并写入如下内容。1234567import tensorflow as tfhello = tf.constant('Hello, TensorFlow!')sess = tf.Session()print(sess.run(hello))a = tf.constant(10)b = tf.constant(32)print(sess.run(a+b)) 然后python test.py运行，注意一下当前运行在 anaconda 的 ai 虚拟环境中。 安装opencv在 anaconda 创建的 ai 虚拟环境中，运行 pip install opencv-python 安装 opencv2。 安装完成之后进行测试，新建一个testCV2.py，并写入如下内容。12345678910#导入cv模块import cv2 as cv#读取图像，支持 bmp、jpg、png、tiff 等常用格式img = cv.imread("test.jpg")#创建窗口并显示图像cv.namedWindow("Image")cv.imshow("Image",img)cv.waitKey(0)#释放窗口cv.destroyAllWindows() 然后python testCV2.py运行，注意一下当前运行在 anaconda 的 ai 虚拟环境中。如果弹出窗口，窗口出现指定的路径的图片，就执行成功了。 安装pytorch打开pytorch官网，在首页选择 pytorch 的运行环境，获取对应的执行命令。 在 anaconda 创建的 ai 虚拟环境中，运行上图中的命令安装 pytorch。 安装完成之后进行测试，新建一个testPytorch.py，并写入如下内容。12345678910#导入cv模块import cv2 as cv#读取图像，支持 bmp、jpg、png、tiff 等常用格式img = cv.imread("test.jpg")#创建窗口并显示图像cv.namedWindow("Image")cv.imshow("Image",img)cv.waitKey(0)#释放窗口cv.destroyAllWindows() 然后python testPytorch.py运行，注意一下当前运行在 anaconda 的 ai 虚拟环境中。如果输出如下内容，说明环境搭建成功。 12tensor([1.], device='cuda:0')True 结束环境搭建是学习的第一步，整个环境花了一天的时间才算完成，因为linux 还在学习中，python还是第一次接触，整个操作的过程中真的是剪不断理还乱，好在最后总算完成了。]]></content>
