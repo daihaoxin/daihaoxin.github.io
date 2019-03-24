@@ -15,12 +15,7 @@
   <entry>
     <title></title>
     <url>%2Fpost%2F0.html</url>
-    <content type="text"><![CDATA[title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:00:00之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的版本没有集成这个功能。 而在高级选项里面的一个 Recovery Mode，进去之后变成了命令行，这时因为这个二级菜单里的 recover mode 是 debian/ubuntu 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 Recovery Mode，需要安装一下，命令如下： 1sudo apt-get install live-filesystem 安装后在 grub 一级菜单会出现 deepin recovery 选项，就可以愉快的备份了，再也不用担心文件丢失。]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>%2Fpost%2F0.html</url>
-    <content type="text"><![CDATA[title:’查看 deepin 对应的 debian 版本’description:’记录 deepin linux 使用的日常’tags:[deepin]categories:[linux] date:2019-01-24 14:02:00打开终端输入： 1cat /etc/debian_version 你会发现的。]]></content>
+    <content type="text"><![CDATA[title:’deepin 15.9 安装recovery mode’description:’记录 deepin linux 使用的日常’tags: deepincategories: linuxdate:2019-01-24 14:00:00 之前用15.6的时候，启动菜单有一个Recovery Mode，进去就可以备份。后来全新安装了15.7 、15.9发现没有这个菜单了，是因为后面的版本没有集成这个功能。 而在高级选项里面的一个 Recovery Mode，进去之后变成了命令行，这时因为这个二级菜单里的 recover mode 是 debian/ubuntu 系自带的一种恢复模式，没有备份还原功能，所以如果要恢复到启动菜单里的 Recovery Mode，需要安装一下，命令如下： 1sudo apt-get install live-filesystem 安装后在 grub 一级菜单会出现 deepin recovery 选项，就可以愉快的备份了，再也不用担心文件丢失。]]></content>
   </entry>
   <entry>
     <title><![CDATA[linux deepin安装tensorflow、opencv、pytorh]]></title>
