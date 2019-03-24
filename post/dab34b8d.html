@@ -469,7 +469,7 @@
 </ol>
 <p>Axios既提供了并发的封装，也没有下文会提到的fetch的各种问题，而且体积也较小，当之无愧现在最应该选用的请求的方式。</p>
 <h2 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h2><p>fetch号称是AJAX的替代品，它的好处在<a href="https://github.com/camsong/blog/issues/2" target="_blank" rel="noopener">《传统 Ajax 已死，Fetch 永生》</a>中提到有以下几点：</p>
-<p>符合关注分离，没有将输入、输出和用事件来跟踪的状态混杂在一个对象里<br>更好更方便的写法，诸如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(url);</span><br><span class="line">  <span class="keyword">let</span> data = response.json();</span><br><span class="line">  <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;<span class="keyword">catch</span> (e)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Oops, error"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>符合关注分离，没有将输入、输出和用事件来跟踪的状态混杂在一个对象里<br>更好更方便的写法，诸如：<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">try</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> response = await fetch(url);</span><br><span class="line">  <span class="keyword">let</span> <span class="class"><span class="keyword">data</span> = response.json();</span></span><br><span class="line">  console.log(<span class="class"><span class="keyword">data</span>);</span></span><br><span class="line">&#125;catch (e)&#123;</span><br><span class="line">    console.log(<span class="string">"Oops, error"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>脱离了XHR，是ES规范里新的实现方式<br>1）fetchtch只对网络请求报错，对400，500都当做成功的请求，需要封装去处理<br>2）fetch默认不会带cookie，需要添加配置项<br>3）fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了量的浪费<br>4）fetch没有办法原生监测请求的进度，而XHR可以</p>
 <p>PS: fetch的具体问题大家可以参考：<a href="http://undefinedblog.com/window-fetch-is-not-as-good-as-you-imagined/?utm_source=caibaojian.com" target="_blank" rel="noopener">《fetch没有你想象的那么美》</a>    <a href="https://www.cnblogs.com/huilixieqi/p/6494380.html" target="_blank" rel="noopener">《fetch使用的常见问题及解决方法》</a></p>
 <p>看到这里，你心里一定有个疑问，这鬼东西就是个半拉子工程嘛，我还是回去用Jquery或者Axios算了——其实我就是这么打算的。但是，必须要提出的是，我发现fetch在前端的应用上有一项xhr怎么也比不上的能力：跨域的处理。</p>
@@ -539,8 +539,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/719762e3.html" rel="prev" title="[转]IE9 跨域请求兼容">
-                [转]IE9 跨域请求兼容 <i class="fa fa-chevron-right"></i>
+              <a href="/post/46828a58.html" rel="prev" title="[转]$.ajax vs axios vs fetch">
+                [转]$.ajax vs axios vs fetch <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
