@@ -448,7 +448,7 @@
         <h2 id="行间样式"><a href="#行间样式" class="headerlink" title="行间样式"></a>行间样式</h2><p><strong>下面的代码只能操作行间样式</strong></p>
 <ul>
 <li><p>cssText 的本质就是设置 HTML 元素的 style 属性值, 与<code>getAttribute(&quot;style&quot;)</code>不同之处在于cssText会对格式做处理，而getAttribute原样返回</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"color:red;font-size:14px;"</span> <span class="attr">id</span>=<span class="string">"dom"</span>&gt;</span>welcome<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> dom=<span class="built_in">document</span>.querySelector(<span class="string">"#dom"</span>);</span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(domd.style.cssText);   <span class="comment">// color: red; font-size: 14px;</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(dom.getAttribute(<span class="string">"style"</span>)); <span class="comment">// color:red;font-size:14px;</span></span></span><br><span class="line"><span class="actionscript"><span class="comment">// 设置值的时候，会把原来的行间样式清空，重新设置</span></span></span><br><span class="line"><span class="actionscript">dom.style.cssText = <span class="string">"width:100px;height:200px;"</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(dom.style.cssText); <span class="comment">// width: 100px; height: 200px;</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"color:red;font-size:14px;"</span> <span class="attr">id</span>=<span class="string">"dom"</span>&gt;</span>welcome<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> dom=<span class="built_in">document</span>.querySelector(<span class="string">"#dom"</span>);</span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(domd.style.cssText);   <span class="comment">// color: red; font-size: 14px;</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(dom.getAttribute(<span class="string">"style"</span>)); <span class="comment">// color:red;font-size:14px;</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// 设置值的时候，会把原来的行间样式清空，重新设置</span></span></span><br><span class="line"><span class="javascript">dom.style.cssText = <span class="string">"width:100px;height:200px;"</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(dom.style.cssText); <span class="comment">// width: 100px; height: 200px;</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>length表示设置了多少样式</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = dom.style.length; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
@@ -511,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/cf849149.html" rel="next" title="CSS笔记之link和@import">
-                <i class="fa fa-chevron-left"></i> CSS笔记之link和@import
+              <a href="/post/581c5f4a.html" rel="next" title="dom笔记之querySelectorAll和getElementByXXX">
+                <i class="fa fa-chevron-left"></i> dom笔记之querySelectorAll和getElementByXXX
               </a>
             
           </div>
@@ -521,8 +521,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/post/581c5f4a.html" rel="prev" title="dom笔记之querySelectorAll和getElementByXXX">
-                dom笔记之querySelectorAll和getElementByXXX <i class="fa fa-chevron-right"></i>
+              <a href="/post/25184d41.html" rel="prev" title="零碎的html和css">
+                零碎的html和css <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -642,7 +642,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -719,10 +719,6 @@
                 </li>
                 
                 <li>
-                  <a href="/post/0.html" title=""></a>
-                </li>
-                
-                <li>
                   <a href="/post/5b3541b1.html" title="linux deepin安装tensorflow、opencv、pytorh">linux deepin安装tensorflow、opencv、pytorh</a>
                 </li>
                 
@@ -732,6 +728,10 @@
                 
                 <li>
                   <a href="/post/5f8b2e94.html" title="linux下多个git账号的配置">linux下多个git账号的配置</a>
+                </li>
+                
+                <li>
+                  <a href="/post/36da9d0d.html" title="deepin中安装jdk">deepin中安装jdk</a>
                 </li>
                 
               </ul>
